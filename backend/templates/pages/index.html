@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block title %}{{ site_settings.company_name }} — Risk Management &amp; Advisory, Lalitpur{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<header class="hero">
+  <svg class="contour" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20,420 C220,360 340,480 560,440 C780,400 900,300 1220,340" fill="none" stroke="#1b3a5c" stroke-width="1.2" opacity="0.18"/>
+    <path d="M-20,470 C260,410 380,520 600,480 C820,440 940,360 1220,400" fill="none" stroke="#1b3a5c" stroke-width="1.2" opacity="0.14"/>
+    <path d="M-20,520 C300,470 420,560 640,530 C860,500 980,430 1220,460" fill="none" stroke="#b8923f" stroke-width="1.4" opacity="0.35"/>
+    <path d="M-20,570 C320,540 440,600 660,580 C880,560 1000,510 1220,530" fill="none" stroke="#1b3a5c" stroke-width="1.2" opacity="0.1"/>
+  </svg>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Kupandole, Lalitpur</p>
+      <h1>Every decision carries <span class="hero-highlight">exposure</span>.<br>We help you carry it well.</h1>
+      <p class="lede">Pivot Risk works with organizations across Nepal to identify what could go wrong, price it honestly, and build the plans that keep operations standing when it does.</p>
+      <div class="hero-cta">
+        {% if site_settings.show_contact %}<a href="{% url 'home:contact' %}" class="btn btn-solid">Talk to our team</a>{% endif %}
+        {% if site_settings.show_services %}<a href="{% url 'home:services' %}" class="btn">See our services</a>{% endif %}
+      </div>
+    </div>
+    <div>
+      <svg viewBox="0 0 420 420" role="img" aria-labelledby="heroChartTitle">
+        <title id="heroChartTitle">Illustrative risk exposure curve, trending downward as controls are applied</title>
+        <line x1="30" y1="30" x2="30" y2="380" stroke="#d9e2f0" stroke-width="1"/>
+        <line x1="30" y1="380" x2="400" y2="380" stroke="#d9e2f0" stroke-width="1"/>
+        <polyline points="30,90 90,120 150,105 210,190 270,230 330,300 390,335" fill="none" stroke="#d73c34" stroke-width="2"/>
+        <polyline points="30,150 90,175 150,200 210,235 270,270 330,310 390,345" fill="none" stroke="#1b4d9b" stroke-width="2" stroke-dasharray="4 4"/>
+        <circle cx="390" cy="335" r="4" fill="#d73c34"/>
+        <circle cx="390" cy="345" r="4" fill="#1b4d9b"/>
+        <text x="40" y="70" font-family="IBM Plex Sans" font-size="12" fill="#586f8a">Unmitigated exposure</text>
+        <text x="180" y="255" font-family="IBM Plex Sans" font-size="12" fill="#586f8a">With controls in place</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section class="stat-row">
+  <div class="stat"><span class="n">120+</span><span class="l">risk assessments completed</span></div>
+  <div class="stat"><span class="n">35+</span><span class="l">organizations advised</span></div>
+  <div class="stat"><span class="n">6</span><span class="l">sectors served</span></div>
+  <div class="stat"><span class="n">Kathmandu Valley</span><span class="l">and clients beyond</span></div>
+</section>
+
+{% if site_settings.show_services %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">What we do</p>
+        <h2 class="mt-0">Four disciplines, one aim: fewer surprises</h2>
+      </div>
+      <a href="{% url 'home:services' %}" class="btn">Full services list</a>
+    </div>
+    <div class="grid grid-3">
+      <div class="cell">
+        <span class="num">01</span>
+        <h3>Enterprise risk assessment</h3>
+        <p>A structured read of where your organization is exposed — operational, financial, regulatory, and reputational — ranked by likelihood and consequence.</p>
+      </div>
+      <div class="cell">
+        <span class="num">02</span>
+        <h3>Business continuity planning</h3>
+        <p>Plans built for Nepal's actual conditions: seismic risk, monsoon disruption, and supply routes that can close without warning.</p>
+      </div>
+      <div class="cell">
+        <span class="num">03</span>
+        <h3>Regulatory &amp; compliance advisory</h3>
+        <p>Keeping pace with Nepal Rastra Bank, Insurance Authority, and sector-specific requirements, without slowing your operations down.</p>
+      </div>
+      <div class="cell">
+        <span class="num">04</span>
+        <h3>Insurance &amp; risk transfer</h3>
+        <p>Independent advice on what to insure, what to retain, and how to structure cover so premiums reflect your real risk.</p>
+      </div>
+      <div class="cell">
+        <span class="num">05</span>
+        <h3>Financial &amp; credit risk analysis</h3>
+        <p>Portfolio and counterparty risk reviews for lenders, cooperatives, and finance companies operating in a fast-changing market.</p>
+      </div>
+      <div class="cell">
+        <span class="num">06</span>
+        <h3>Training &amp; risk culture</h3>
+        <p>Workshops that move risk thinking out of a single department and into how teams actually make decisions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section-ink">
+  <div class="wrap">
+    <div class="hero-grid" style="grid-template-columns: 1fr 1fr; align-items: center;">
+      <div>
+        <p class="eyebrow" style="color:#cb1100;">Why Pivot Risk</p>
+        <h2>We work from Lalitpur. We think about clients across the country.</h2>
+        <p>Being based in Kupandole keeps us close to regulators, insurers, and the businesses of the Kathmandu Valley — but the risks we're asked to plan for rarely stay inside one district. Our recommendations are built to hold up wherever your operations actually sit.</p>
+        <a href="{% url 'home:about' %}" class="btn btn-gold" style="border-color:#cb1100; color:#ffffff;">More about our approach</a>
+      </div>
+      <div>
+        <p style="color:#e6e9ed; font-family: var(--serif); font-size: 1.4rem; line-height:1.5; max-width: 34ch;">"Risk isn't something to eliminate. It's something to understand well enough to price, plan for, and pivot around."</p>
+        <p style="color:#b7c0cb; margin-top:18px;">— Pivot Risk, on how we approach every engagement</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if site_settings.show_blog and pinned_posts %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">From the blog</p>
+        <h2 class="mt-0">Featured posts</h2>
+      </div>
+      <a href="{% url 'blog:post_list' %}" class="btn">All posts</a>
+    </div>
+    <div class="grid grid-3">
+      {% for post in pinned_posts %}
+      <div class="cell">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="cover" loading="lazy">
+        {% endif %}
+        <span class="post-meta">{{ post.created_at|date:"F j, Y" }}</span>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt|default:post.content|truncatewords:28 }}</p>
+        <a href="{% url 'blog:post_detail' post.id %}" class="card-link">
+          Read post
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if site_settings.show_notices and notices %}
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Notice board</p>
+        <h2 class="mt-0">Latest notices</h2>
+      </div>
+      <a href="{% url 'home:notices' %}" class="btn">All notices</a>
+    </div>
+    <div class="notice-list">
+      {% for notice in notices %}
+      <article class="notice-item">
+        <div class="notice-head">
+          {% if notice.is_pinned %}<span class="tag">Pinned</span>{% endif %}
+          <span class="post-meta">{{ notice.published_at|date:"F j, Y" }}</span>
+        </div>
+        <h3 class="notice-title">{{ notice.title }}</h3>
+        {% if notice.body %}<p>{{ notice.body|truncatewords:30 }}</p>{% endif %}
+        <div class="notice-actions">
+          {% if notice.attachment %}
+            {% if notice.is_image %}
+            <a href="{{ notice.attachment.url }}" target="_blank" rel="noopener" class="card-link">View image</a>
+            {% else %}
+            <a href="{{ notice.attachment.url }}" target="_blank" rel="noopener" class="card-link">Download PDF</a>
+            {% endif %}
+          {% endif %}
+          {% if notice.link %}<a href="{{ notice.link }}" target="_blank" rel="noopener" class="card-link">Open link</a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if site_settings.show_contact %}
+<section class="section">
+  <div class="wrap" style="text-align:left; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;">
+    <div>
+      <h2 class="mt-0">Have a decision that needs a second, sharper look?</h2>
+      <p>Tell us what you're weighing up. We'll tell you what we'd want to know before signing off on it.</p>
+    </div>
+    <a href="{% url 'home:contact' %}" class="btn btn-solid">Start a conversation</a>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

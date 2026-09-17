@@ -1,0 +1,214 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ site_settings.company_name }} — Risk Management &amp; Advisory, Lalitpur{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site_settings.company_name }} is a risk management and advisory firm based in Lalitpur, helping organizations across Nepal identify, price and withstand risk.{% endblock %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}?v=6">
+{% block extra_head %}{% endblock %}
+<style>
+  :root{
+    --ink:        {{ site_settings.ink_color }};
+    --deep-blue:  {{ site_settings.deep_color }};
+    --brand-blue: {{ site_settings.deep_color }};
+    --brand-red:  {{ site_settings.accent_color }};
+    --brand-red-soft: {{ site_settings.accent_color }};
+    --rust:       {{ site_settings.accent_color }};
+    --paper:      {{ site_settings.paper_color }};
+    --paper-dim:  {{ site_settings.paper_color }};
+  }
+</style>
+</head>
+<body>
+
+<!-- Splash loader: shows once at the very first start of the site,
+     held ~4.5s so the rest of the page loads behind it. Not replayed
+     on later pages in the same session. Force a replay with ?showloader=1 -->
+<div id="loader" class="loader" aria-hidden="true">
+  <div class="loader-inner">
+    {% if site_settings.logo %}
+      <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.company_name }}" class="loader-logo">
+    {% else %}
+      <span class="loader-logo-text">{{ site_settings.company_name }}</span>
+    {% endif %}
+    <span class="loader-bar"></span>
+    <span class="loader-note">Loading</span>
+  </div>
+</div>
+<script>
+  (function () {
+    var loader = document.getElementById('loader');
+    var signal = function () {
+      window.__pivotLoaderDone = true;
+      window.dispatchEvent(new Event('pivot:loaderdone'));
+    };
+    if (!loader) { signal(); return; }
+    var KEY = 'pr_loader_seen';
+    var force = /[?&]showloader=1/.test(window.location.search);
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduce) { loader.classList.add('hide'); loader.remove(); signal(); return; }
+
+    // Already shown this session -> hide instantly, no replay while browsing.
+    if (!force && window.sessionStorage.getItem(KEY)) {
+      loader.classList.add('hide');
+      loader.remove();
+      signal();
+      return;
+    }
+    window.sessionStorage.setItem(KEY, '1');
+
+    var MIN_SHOW = 4500;
+    var showUntil = Date.now() + MIN_SHOW;
+    var finish = function () {
+      var remaining = showUntil - Date.now();
+      if (remaining > 0) { setTimeout(finish, remaining); return; }
+      loader.classList.add('hide');
+      signal();
+      setTimeout(function () { loader.remove(); }, 650);
+    };
+
+    if (document.readyState === 'complete') { finish(); }
+    else {
+      window.addEventListener('load', finish);
+      setTimeout(finish, MIN_SHOW + 4000); // fail-safe
+    }
+  })();
+</script>
+
+{% if site_settings.show_notices and popup_notice %}
+<div id="notice-popup" class="notice-popup" data-notice-id="{{ popup_notice.id }}" role="dialog" aria-modal="true" aria-labelledby="notice-popup-title" hidden>
+  <div class="notice-popup-backdrop" data-notice-close></div>
+  <div class="notice-popup-card" role="document">
+    <button type="button" class="notice-popup-close" aria-label="Close notice" data-notice-close>&times;</button>
+    <div class="notice-head">
+      {% if popup_notice.is_pinned %}<span class="tag">Pinned</span>{% endif %}
+      <span class="post-meta">{{ popup_notice.published_at|date:"F j, Y" }}</span>
+    </div>
+    <h2 id="notice-popup-title" class="notice-title">{{ popup_notice.title }}</h2>
+    {% if popup_notice.body %}<div class="notice-body">{{ popup_notice.body|linebreaks }}</div>{% endif %}
+    {% if popup_notice.attachment %}
+      {% if popup_notice.is_image %}
+      <img src="{{ popup_notice.attachment.url }}" alt="{{ popup_notice.title }}" class="notice-popup-media">
+      {% elif popup_notice.is_pdf %}
+      <iframe src="{{ popup_notice.attachment.url }}#view=FitH" class="notice-popup-pdf" title="PDF preview: {{ popup_notice.title }}"></iframe>
+      {% endif %}
+    {% endif %}
+    <div class="notice-popup-actions">
+      {% if popup_notice.attachment %}
+        {% if popup_notice.is_image %}
+        <a href="{{ popup_notice.attachment.url }}" target="_blank" rel="noopener" class="btn">View full image</a>
+        {% elif popup_notice.is_pdf %}
+        <a href="{{ popup_notice.attachment.url }}" target="_blank" rel="noopener" class="btn">Open PDF</a>
+        {% else %}
+        <a href="{{ popup_notice.attachment.url }}" target="_blank" rel="noopener" class="btn">Download file</a>
+        {% endif %}
+      {% endif %}
+      {% if popup_notice.link %}<a href="{{ popup_notice.link }}" target="_blank" rel="noopener" class="btn">Open link</a>{% endif %}
+      <a href="{% url 'home:notices' %}" class="btn btn-solid">All notices</a>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    var popup = document.getElementById('notice-popup');
+    if (!popup) return;
+    var KEY = 'pr_notice_seen_' + popup.getAttribute('data-notice-id');
+    var opened = false;
+    var open = function () {
+      if (opened) return;
+      opened = true;
+      if (window.sessionStorage.getItem(KEY)) return;
+      window.sessionStorage.setItem(KEY, '1');
+      popup.hidden = false;
+      popup.classList.add('open');
+      document.documentElement.style.overflow = 'hidden';
+      var btn = popup.querySelector('.notice-popup-close');
+      if (btn) btn.focus();
+    };
+    var close = function () {
+      popup.classList.remove('open');
+      popup.hidden = true;
+      document.documentElement.style.overflow = '';
+    };
+    popup.querySelectorAll('[data-notice-close]').forEach(function (el) {
+      el.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !popup.hidden) close();
+    });
+
+    if (window.__pivotLoaderDone) { open(); }
+    else { window.addEventListener('pivot:loaderdone', open, { once: true }); }
+  })();
+</script>
+{% endif %}
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="{% url 'home:home' %}" class="logo">
+      {% if site_settings.logo %}
+        <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.company_name }}" class="brand-logo">
+      {% endif %}
+      <span class="logo-text">{{ site_settings.company_name }}<span class="tagline">{{ site_settings.tagline }}</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="{% url 'home:home' %}" class="{% block nav_home %}{% endblock %}">Home</a></li>
+      <li><a href="{% url 'home:about' %}" class="{% block nav_about %}{% endblock %}">About</a></li>
+      {% if site_settings.show_services %}<li><a href="{% url 'home:services' %}" class="{% block nav_services %}{% endblock %}">Services</a></li>{% endif %}
+      {% if site_settings.show_team %}<li><a href="{% url 'home:team' %}" class="{% block nav_team %}{% endblock %}">Team</a></li>{% endif %}
+      {% if site_settings.show_blog %}<li><a href="{% url 'blog:post_list' %}" class="{% block nav_blog %}{% endblock %}">Blog</a></li>{% endif %}
+      {% if site_settings.show_projects %}<li><a href="{% url 'projects:project_list' %}" class="{% block nav_projects %}{% endblock %}">Projects</a></li>{% endif %}
+      {% if site_settings.show_notices %}<li><a href="{% url 'home:notices' %}" class="{% block nav_notices %}{% endblock %}">Notices</a></li>{% endif %}
+      {% if site_settings.show_contact %}<li><a href="{% url 'home:contact' %}" class="{% block nav_contact %}{% endblock %}">Contact</a></li>{% endif %}
+    </ul>
+  </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>{{ site_settings.company_name }}</h4>
+        <p style="max-width: 34ch;">{{ site_settings.footer_blurb }}</p>
+        {% include 'partials/social_links.html' %}
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul class="footer-links">
+          <li><a href="{% url 'home:home' %}">Home</a></li>
+          <li><a href="{% url 'home:about' %}">About</a></li>
+          {% if site_settings.show_services %}<li><a href="{% url 'home:services' %}">Services</a></li>{% endif %}
+          {% if site_settings.show_team %}<li><a href="{% url 'home:team' %}">Team</a></li>{% endif %}
+          {% if site_settings.show_blog %}<li><a href="{% url 'blog:post_list' %}">Blog</a></li>{% endif %}
+          {% if site_settings.show_projects %}<li><a href="{% url 'projects:project_list' %}">Projects</a></li>{% endif %}
+          {% if site_settings.show_notices %}<li><a href="{% url 'home:notices' %}">Notices</a></li>{% endif %}
+          {% if site_settings.show_contact %}<li><a href="{% url 'home:contact' %}">Contact</a></li>{% endif %}
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li>{{ site_settings.address }}</li>
+          <li><a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></li>
+          <li><a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></li>
+          <li>{{ site_settings.hours }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {% now "Y" %} {{ site_settings.copyright_name }}. All rights reserved.</span>
+      <span>{{ site_settings.address }}</span>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}?v=3"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

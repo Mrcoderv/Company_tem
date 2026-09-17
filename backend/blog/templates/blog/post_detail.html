@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} — Pivot Risk Blog{% endblock %}
+{% block description %}{{ post.excerpt|truncatewords:30 }}{% endblock %}
+{% block nav_blog %}active{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">From the blog</p>
+    <h1>{{ post.title }}</h1>
+    <div class="meta-line">
+      <span>{{ post.created_at|date:"F j, Y" }}</span>
+      {% if post.excerpt %}<span>{{ post.excerpt|truncatewords:40 }}</span>{% endif %}
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    {% if post.image %}
+    <figure class="detail-figure">
+      <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    </figure>
+    {% endif %}
+    <div class="article-body">
+      {{ post.content|safe }}
+    </div>
+    {% if post.pdf %}
+    <p style="margin-top: 26px;">
+      <a href="{{ post.pdf.url }}" class="btn btn-solid" target="_blank" rel="noopener">
+        Download attachment (PDF)
+      </a>
+    </p>
+    {% endif %}
+    <a href="{% url 'blog:post_list' %}" class="back-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to blog
+    </a>
+  </div>
+</section>
+{% endblock %}

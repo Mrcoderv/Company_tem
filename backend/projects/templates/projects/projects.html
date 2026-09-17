@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Projects — {{ site_settings.company_name }}{% endblock %}
+{% block description %}A selection of projects and engagements from Pivot Risk, working with organizations across Nepal.{% endblock %}
+{% block nav_projects %}active{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Projects</p>
+    <h1>Work we're part of</h1>
+    <p class="lede">A selection of projects and client engagements — assessments, advisory work, and the resilience programs built around them.</p>
+  </div>
+</header>
+
+<section class="section section-alt" style="padding: 24px 0;">
+  <div class="wrap">
+    <form class="filter-bar" method="get" action="{% url 'projects:project_list' %}">
+      <div class="field">
+        <select id="category-filter" name="category" aria-label="Filter by category">
+          <option value="">All categories</option>
+          {% for category in categories %}
+          <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <input type="text" id="search-input" name="search" placeholder="Search projects" value="{{ request.GET.search }}">
+      </div>
+      <button type="submit" id="search-btn" class="btn btn-solid">Search</button>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {% if projects %}
+    <div class="grid grid-3">
+      {% for project in projects %}
+      <div class="cell">
+        {% if project.image %}
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="cover" loading="lazy">
+        {% endif %}
+        <span class="post-meta">{{ project.created_at|date:"F j, Y" }}</span>
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description|truncatewords:28 }}</p>
+        {% if project.categories.all %}
+        <div class="tags">
+          {% for category in project.categories.all %}
+          <span class="tag">{{ category.name }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <a href="{% url 'projects:project_detail' project.id %}" class="card-link">
+          View project
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <nav class="pagination" aria-label="Pagination">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}">Previous</a>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <span class="current">{{ num }}</span>
+        {% else %}
+        <a href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}">Next</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="empty">
+      <p>No projects match that filter. {% spaceless %}<a href="{% url 'projects:project_list' %}">Clear filters</a>{% endspaceless %} or {% spaceless %}<a href="{% url 'home:contact' %}">get in touch</a>{% endspaceless %} to discuss your engagement.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

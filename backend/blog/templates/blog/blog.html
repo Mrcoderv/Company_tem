@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Blog — {{ site_settings.company_name }}{% endblock %}
+{% block description %}Notes and writing from Pivot Risk on enterprise risk, business continuity, regulatory change, and risk culture in Nepal.{% endblock %}
+{% block nav_blog %}active{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Blog</p>
+    <h1>Notes from the practice</h1>
+    <p class="lede">Risk thinking doesn't have to be locked in spreadsheets. Occasional writing on how organizations in Nepal can identify, price, and plan for what could go wrong.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    {% if posts %}
+    <div class="grid grid-3">
+      {% for post in posts %}
+      <div class="cell">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="cover" loading="lazy">
+        {% endif %}
+        <span class="post-meta">{{ post.created_at|date:"F j, Y" }}{% if post.pdf %} · PDF available{% endif %}</span>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt|default:post.content|truncatewords:28 }}</p>
+        <a href="{% url 'blog:post_detail' post.id %}" class="card-link">
+          Read more
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+      <p>No posts published yet. Check back soon, or {% spaceless %}<a href="{% url 'home:contact' %}">get in touch</a>{% endspaceless %} to talk to our team.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

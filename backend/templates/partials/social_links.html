@@ -1,0 +1,9 @@
+{% if social_links %}
+<div class="social-links">
+  {% for link in social_links %}
+  <a href="{{ link.url }}" class="social-link" target="_blank" rel="noopener" aria-label="{{ link.aria_label }}" title="{{ link.aria_label }}">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">{{ link.svg }}</svg>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Team — {{ site_settings.company_name }}{% endblock %}
+{% block description %}Meet the {{ site_settings.company_name }} team, based in Lalitpur.{% endblock %}
+{% block nav_team %}active{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Team</p>
+    <h1>The people behind the assessments</h1>
+    <p class="lede">A small, senior team — every engagement is led by someone who has actually done the analysis, not just signed off on it.</p>
+  </div>
+</header>
+
+<!--
+  Members are managed from the admin panel:
+  Admin > Team members  (name, role, bio, photo, order, active).
+  Reorder with the "Order" number; hide a member by unchecking "Active".
+-->
+<section class="section">
+  <div class="wrap">
+    {% if team_members %}
+    <div class="team-grid">
+      {% for member in team_members %}
+      <div class="person">
+        {% if member.photo %}
+        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="photo-img" loading="lazy">
+        {% else %}
+        <div class="photo">{{ member.name|first }}</div>
+        {% endif %}
+        <h3>{{ member.name }}</h3>
+        {% if member.role %}<span class="role">{{ member.role }}</span>{% endif %}
+        {% if member.bio %}<p>{{ member.bio }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+      <p>No team members published yet. Add them from the admin panel (Admin &gt; Team members).</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;">
+    <div>
+      <h2 class="mt-0">Interested in joining the team?</h2>
+      <p>We're always open to hearing from risk, compliance, and finance professionals based in the Kathmandu Valley.</p>
+    </div>
+    <a href="{% url 'home:contact' %}" class="btn btn-solid">Get in touch</a>
+  </div>
+</section>
+{% endblock %}

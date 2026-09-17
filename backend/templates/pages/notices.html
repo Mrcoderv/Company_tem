@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Notices — {{ site_settings.company_name }}{% endblock %}
+{% block description %}Notices and announcements from {{ site_settings.company_name }}.{% endblock %}
+{% block nav_notices %}active{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Notices</p>
+    <h1>Announcements &amp; notices</h1>
+    <p class="lede">Latest updates, circulars and attachments from {{ site_settings.company_name }}.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    {% if notices %}
+    <div class="notice-list">
+      {% for notice in notices %}
+      <article class="notice-item">
+        <div class="notice-head">
+          {% if notice.is_pinned %}<span class="tag">Pinned</span>{% endif %}
+          <span class="post-meta">{{ notice.published_at|date:"F j, Y" }}</span>
+        </div>
+        <h2 class="notice-title">{{ notice.title }}</h2>
+        {% if notice.body %}<div class="notice-body">{{ notice.body|linebreaks }}</div>{% endif %}
+        {% if notice.attachment and notice.is_image %}
+        <a href="{{ notice.attachment.url }}" target="_blank" rel="noopener">
+          <img src="{{ notice.attachment.url }}" alt="{{ notice.title }}" class="notice-thumb" loading="lazy">
+        </a>
+        {% endif %}
+        {% if notice.attachment or notice.link %}
+        <div class="notice-actions">
+          {% if notice.attachment %}
+            {% if notice.is_image %}
+            <a href="{{ notice.attachment.url }}" target="_blank" rel="noopener" class="btn">View image</a>
+            {% else %}
+            <a href="{{ notice.attachment.url }}" target="_blank" rel="noopener" class="btn">Download PDF</a>
+            {% endif %}
+          {% endif %}
+          {% if notice.link %}<a href="{{ notice.link }}" target="_blank" rel="noopener" class="btn">Open link</a>{% endif %}
+        </div>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty"><p>There are no notices right now. Please check back later.</p></div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
