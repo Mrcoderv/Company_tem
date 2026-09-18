@@ -97,10 +97,17 @@ WSGI_APPLICATION = 'company_intro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Vercel's deployment filesystem is read-only. Keep SQLite local for
+# development, but use the writable ephemeral /tmp directory in serverless.
+SQLITE_PATH = os.getenv(
+    'SQLITE_PATH',
+    '/tmp/db.sqlite3' if os.getenv('VERCEL') else str(BASE_DIR / 'db.sqlite3'),
+)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': SQLITE_PATH,
     }
 }
 
