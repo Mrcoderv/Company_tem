@@ -1,0 +1,272 @@
+/* =============================================================================
+   Pivot Risk — admin theme
+   Lightweight restyle of the default Django admin, driven by the brand colors
+   from Site settings (--pr-deep, --pr-accent, --pr-ink, --pr-paper).
+   No third-party packages required.
+   ========================================================================== */
+
+:root{
+  --primary: var(--pr-deep);
+  --secondary: var(--pr-deep);
+  --accent: var(--pr-accent);
+  --primary-fg: #ffffff;
+
+  --body-fg: #1b2436;
+  --body-bg: var(--pr-paper);
+  --body-quiet-color: #5c6c86;
+  --body-medium-color: #3a4557;
+  --body-loud-color: var(--pr-ink);
+
+  --header-bg: var(--pr-deep);
+  --header-color: #dce6f7;
+  --header-branding-color: #ffffff;
+  --header-link-color: #ffffff;
+
+  --breadcrumbs-bg: var(--pr-ink);
+  --breadcrumbs-fg: #c7d4ec;
+  --breadcrumbs-link-fg: #ffffff;
+
+  --link-fg: var(--pr-deep);
+  --link-hover-color: var(--pr-accent);
+  --link-selected-fg: var(--pr-accent);
+
+  --hairline-color: #d9e1ef;
+  --border-color: #cfd9ea;
+  --darkened-bg: #f2f6fc;
+  --selected-bg: #e7eefb;
+  --selected-row: #eef4ff;
+
+  --button-fg: #ffffff;
+  --button-bg: var(--pr-deep);
+  --button-hover-bg: var(--pr-ink);
+  --default-button-bg: var(--pr-accent);
+  --default-button-hover-bg: #a32320;
+  --close-button-bg: #6b7891;
+  --close-button-hover-bg: #4a5568;
+  --delete-button-bg: var(--pr-accent);
+  --delete-button-hover-bg: #a32320;
+
+  --object-tools-fg: #ffffff;
+  --object-tools-bg: var(--pr-deep);
+  --object-tools-hover-bg: var(--pr-ink);
+
+  --font-family-primary: "Inter", "Segoe UI", system-ui, -apple-system,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---- Header ------------------------------------------------------------- */
+#header{
+  background: linear-gradient(135deg, var(--pr-deep) 0%, var(--pr-ink) 100%);
+  color: var(--header-color);
+  padding: 14px 28px;
+  box-shadow: 0 2px 16px rgba(13, 35, 73, 0.28);
+  align-items: center;
+}
+#branding .pr-brand a{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+}
+.pr-brand-logo{
+  height: 38px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.pr-brand-text{
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+.pr-brand-text small{
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pr-accent);
+  margin-top: 3px;
+}
+#user-tools{
+  font-size: 0.82rem;
+  color: #cdd9ef;
+}
+#user-tools a{
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+#user-tools a:hover{ color: var(--pr-accent); }
+
+/* ---- Breadcrumbs -------------------------------------------------------- */
+div.breadcrumbs{
+  background: var(--pr-ink);
+  padding: 12px 28px;
+  font-size: 0.82rem;
+  border: 0;
+}
+div.breadcrumbs a{ color: #fff; }
+div.breadcrumbs a:hover{ color: var(--pr-accent); }
+
+/* ---- Layout / content --------------------------------------------------- */
+#content{
+  padding: 24px 28px 32px;
+}
+#content h1{
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--pr-ink);
+}
+#content h2{ color: var(--pr-ink); }
+
+/* ---- Modules / cards ---------------------------------------------------- */
+.module{
+  border: 1px solid var(--hairline-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(13, 35, 73, 0.06);
+}
+.module > h2,
+.module caption,
+.inline-group h2{
+  background: var(--pr-deep);
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 16px;
+}
+.module h2 a{ color: #fff; }
+.inline-group{
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ---- Sidebar ------------------------------------------------------------ */
+#nav-sidebar{
+  background: #fff;
+  border-right: 1px solid var(--hairline-color);
+}
+#nav-sidebar a{ border-radius: 8px; }
+#nav-sidebar a:hover{ background: var(--selected-row); }
+#nav-sidebar .current-model{ background: var(--selected-row); }
+
+/* ---- Result tables ------------------------------------------------------ */
+#result_list{ border-radius: 12px; overflow: hidden; }
+#result_list thead th{ background: var(--darkened-bg); }
+#result_list tbody tr:hover{ background: var(--selected-row); }
+#result_list tbody th a,
+#result_list tbody td a{ font-weight: 600; }
+
+/* ---- Buttons ------------------------------------------------------------ */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button,
+button{
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-weight: 600;
+  transition: background 0.15s ease, transform 0.06s ease;
+}
+.button:hover,
+input[type="submit"]:hover,
+.submit-row input:hover{
+  transform: translateY(-1px);
+}
+.object-tools a{
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 600;
+}
+
+/* ---- Form fields -------------------------------------------------------- */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="search"],
+textarea,
+select,
+.vTextField{
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 8px 10px;
+}
+input:focus,
+textarea:focus,
+select:focus,
+.vTextField:focus{
+  outline: 2px solid var(--pr-accent);
+  outline-offset: 1px;
+}
+
+/* ---- Filters / pagination ---------------------------------------------- */
+#changelist-filter{ border-radius: 12px; overflow: hidden; }
+#changelist-filter h2{
+  background: var(--pr-deep);
+  color: #fff;
+  border-radius: 0;
+}
+.paginator a,
+.paginator .this-page{ border-radius: 6px; }
+
+/* ---- Messages ----------------------------------------------------------- */
+.messagelist li{ border-radius: 8px; }
+ul.messagelist li.success{ background: #e4f4e8; color: #1e5b31; }
+ul.messagelist li.warning{ background: #fdf3d8; color: #7a5b0b; }
+ul.messagelist li.error{ background: #fde6e6; color: #8a1f1f; }
+
+/* ---- Footer ------------------------------------------------------------- */
+.pr-footer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 28px;
+  font-size: 0.8rem;
+  color: var(--body-quiet-color);
+  border-top: 1px solid var(--hairline-color);
+}
+.pr-footer a{ color: var(--pr-deep); font-weight: 600; }
+.pr-footer a:hover{ color: var(--pr-accent); }
+
+/* ---- Login -------------------------------------------------------------- */
+body.login{
+  background: linear-gradient(135deg, var(--pr-deep) 0%, var(--pr-ink) 100%);
+}
+body.login #container{
+  border: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+body.login #header{
+  padding: 18px 26px;
+  box-shadow: none;
+}
+body.login #content{
+  background: #fff;
+  padding: 28px 30px 32px;
+}
+body.login .submit-row{
+  background: transparent;
+  padding: 0;
+  margin-top: 18px;
+}
+body.login .submit-row input{
+  width: 100%;
+}
+body.login .pr-footer{ display: none; }
+
+/* ---- Responsive tweaks -------------------------------------------------- */
+@media (max-width: 767px){
+  #header{ padding: 12px 16px; }
+  #content{ padding: 18px 16px 24px; }
+  .pr-brand-text{ font-size: 1rem; }
+}

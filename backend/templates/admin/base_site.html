@@ -1,0 +1,37 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_settings.company_name }} Admin{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}?v=1">
+  <style>
+    :root{
+      --pr-deep: {{ site_settings.deep_color }};
+      --pr-accent: {{ site_settings.accent_color }};
+      --pr-ink: {{ site_settings.ink_color }};
+      --pr-paper: {{ site_settings.paper_color }};
+    }
+  </style>
+{% endblock %}
+
+{% block branding %}
+<div id="site-name" class="pr-brand">
+  <a href="{% url 'admin:index' %}">
+    {% if site_settings.logo %}
+    <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.company_name }}" class="pr-brand-logo">
+    {% endif %}
+    <span class="pr-brand-text">{{ site_settings.company_name }}<small>Admin</small></span>
+  </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block footer %}
+<div class="pr-footer">
+  <span>{{ site_settings.company_name }} — administration</span>
+  <span><a href="{% url 'home:home' %}" target="_blank" rel="noopener">View site &#8599;</a></span>
+</div>
+{% endblock %}
