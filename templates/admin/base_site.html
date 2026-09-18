@@ -5,7 +5,7 @@
 
 {% block extrastyle %}
   {{ block.super }}
-  <link rel="stylesheet" href="{% static 'css/admin.css' %}?v=1">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}?v=2">
   <style>
     :root{
       --pr-deep: {{ site_settings.deep_color }};
@@ -27,7 +27,12 @@
 </div>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+{% block nav-global %}
+  <div class="pr-admin-shortcuts" aria-label="Quick links">
+    <a href="{% url 'home:home' %}" target="_blank" rel="noopener">View public site</a>
+    <a href="{% url 'admin:home_sitesettings_changelist' %}">Edit site settings</a>
+  </div>
+{% endblock %}
 
 {% block footer %}
 <div class="pr-footer">

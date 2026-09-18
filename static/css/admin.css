@@ -102,6 +102,25 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 #user-tools a:hover{ color: var(--pr-accent); }
+.pr-admin-shortcuts{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 28px;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--hairline-color);
+}
+.pr-admin-shortcuts a{
+  color: var(--pr-deep);
+  font-size: .78rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: var(--selected-row);
+}
+.pr-admin-shortcuts a:hover{ color: var(--pr-accent); background: var(--darkened-bg); }
+
 
 /* ---- Breadcrumbs -------------------------------------------------------- */
 div.breadcrumbs{
@@ -123,6 +142,24 @@ div.breadcrumbs a:hover{ color: var(--pr-accent); }
   color: var(--pr-ink);
 }
 #content h2{ color: var(--pr-ink); }
+#content-main{ max-width: 1440px; }
+.help, p.help, .form-row .help{
+  color: var(--body-quiet-color);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+fieldset.module,
+.inline-group{
+  background: rgba(255,255,255,.78);
+}
+fieldset.module > h2,
+.inline-group h2{
+  letter-spacing: .01em;
+}
+fieldset.collapse summary{ cursor: pointer; }
+.form-row{ padding: 14px 16px; }
+.form-row label{ color: var(--body-loud-color); font-weight: 600; }
+.aligned label + p.help{ margin-left: 0; }
 
 /* ---- Modules / cards ---------------------------------------------------- */
 .module{
