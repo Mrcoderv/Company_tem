@@ -32,7 +32,13 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     list_display = ("company_name", "email", "phone", "updated_at")
     readonly_fields = ("logo_preview", "updated_at")
     fieldsets = (
-        ("Identity", {"fields": ("company_name", "tagline")}),
+        (
+            "Brand identity",
+            {
+                "fields": ("company_name", "tagline"),
+                "description": "These details appear across the header, loading screen, page titles, and footer.",
+            },
+        ),
         (
             "Logo",
             {
@@ -84,6 +90,10 @@ class TeamMemberAdmin(admin.ModelAdmin):
     list_filter = ("is_active",)
     search_fields = ("name", "role", "bio")
     fields = ("name", "role", "bio", "photo", "order", "is_active")
+    fieldsets = (
+        ("Profile", {"fields": ("name", "role", "bio", "photo")}),
+        ("Publishing", {"fields": ("order", "is_active"), "description": "Use order to control the display sequence on the public team page."}),
+    )
 
 
 @admin.register(SocialLink)

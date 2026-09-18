@@ -27,7 +27,12 @@
 </div>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+{% block nav-global %}
+  <div class="pr-admin-shortcuts" aria-label="Quick links">
+    <a href="{% url 'home:home' %}" target="_blank" rel="noopener">View public site</a>
+    <a href="{% url 'admin:home_sitesettings_changelist' %}">Edit site settings</a>
+  </div>
+{% endblock %}
 
 {% block footer %}
 <div class="pr-footer">
