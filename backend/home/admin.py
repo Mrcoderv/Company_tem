@@ -30,42 +30,51 @@ class SiteSettingsForm(forms.ModelForm):
 class SiteSettingsAdmin(admin.ModelAdmin):
     form = SiteSettingsForm
     list_display = ("company_name", "email", "phone", "updated_at")
+    list_display_links = ("company_name",)
     readonly_fields = ("logo_preview", "updated_at")
+    save_on_top = True
     fieldsets = (
         (
             "Brand identity",
             {
                 "fields": ("company_name", "tagline"),
-                "description": "These details appear across the header, loading screen, page titles, and footer.",
+                "description": "The foundation of your public site. These details appear in the header, loading screen, page titles, and footer.",
             },
         ),
         (
             "Logo",
             {
                 "fields": ("logo", "logo_preview"),
-                "description": "Upload your logo here. Leave it empty to show the company name as text.",
+                "description": "Upload a transparent PNG or JPG. Leave it empty to show the company name as text.",
             },
         ),
-        ("Brand colors", {"fields": ("accent_color", "deep_color", "ink_color", "paper_color")}),
-        ("Contact & location", {"fields": ("address", "map_embed_url", "email", "phone", "hours")}),
+        (
+            "Brand colors",
+            {
+                "fields": (("accent_color", "deep_color"), ("ink_color", "paper_color")),
+                "description": "Use six-digit hex colors. Changes are applied across the public site automatically.",
+            },
+        ),
+        (
+            "Contact & location",
+            {
+                "fields": (("email", "phone"), "address", "hours", "map_embed_url"),
+                "description": "This information powers the contact page and footer.",
+            },
+        ),
         ("Footer", {"fields": ("footer_blurb", "copyright_name")}),
         (
-            "Sections",
+            "Published sections",
             {
-                "fields": (
-                    "show_services",
-                    "show_team",
-                    "show_blog",
-                    "show_projects",
-                    "show_notices",
-                    "show_contact",
-                ),
-                "description": "Turn a section off to hide it from the menu (and the page becomes unavailable). "
-                "Turn it back on any time.",
+                "fields": (("show_services", "show_team", "show_blog"), ("show_projects", "show_notices", "show_contact")),
+                "description": "Toggle sections on or off without deleting their content. Disabled sections are removed from public navigation.",
             },
         ),
-        ("Meta", {"fields": ("updated_at",), "classes": ("collapse",)}),
+        ("Last updated", {"fields": ("updated_at",), "classes": ("collapse",)}),
     )
+
+    def has_change_permission(self, request, obj=None):
+        return True
 
     @admin.display(description="Current logo")
     def logo_preview(self, obj):
@@ -87,9 +96,15 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 class TeamMemberAdmin(admin.ModelAdmin):
     list_display = ("name", "role", "order", "is_active")
     list_editable = ("order", "is_active")
+    list_display_links = ("name",)
     list_filter = ("is_active",)
     search_fields = ("name", "role", "bio")
-    fields = ("name", "role", "bio", "photo", "order", "is_active")
+    ordering = ("order", "name")
+    save_on_top = True
+    fieldsets = (
+        ("Profile", {"fields": ("name", "role", "bio", "photo")}),
+        ("Publishing", {"fields": (("order", "is_active"),), "description": "Lower order numbers appear first. Turn Active off to hide this person without deleting them."}),
+    )
     fieldsets = (
         ("Profile", {"fields": ("name", "role", "bio", "photo")}),
         ("Publishing", {"fields": ("order", "is_active"), "description": "Use order to control the display sequence on the public team page."}),
