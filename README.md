@@ -27,6 +27,80 @@ A customizable Django company website for Pivot Risk. The site includes editable
 └── db.sqlite3            # Local development database, when created
 ```
 
+## Code map
+
+### Request flow
+
+```text
+Browser request
+  ↓
+company_intro/urls.py
+  ├── /admin/          → Django admin
+  ├── /blog/           → blog/urls.py → blog/views.py
+  ├── /projects/       → projects/urls.py → projects/views.py
+  └── /                → home/urls.py → home/views.py
+                                      ↓
+                              templates/*.html
+                                      ↓
+                           static/css and static/js
+```
+
+### Application responsibilities
+
+```text
+company_intro/
+├── settings.py        # Installed apps, templates, static/media, database
+├── urls.py            # Root URL configuration and media routing
+├── asgi.py            # ASGI deployment entry point
+└── wsgi.py            # WSGI deployment entry point
+
+home/
+├── models.py          # Site settings, pages, notices, team, contacts, social links
+├── views.py            # Home, about, services, team, and contact page behavior
+├── sections.py        # Reusable homepage/content sections
+├── admin.py           # Admin customization and content editor configuration
+└── migrations/        # Database schema history
+
+blog/
+├── models.py          # Blog posts and related content fields
+├── views.py           # Blog listing and detail pages
+├── admin.py           # Blog editing workflows
+├── urls.py            # Blog route definitions
+└── templates/blog/    # Blog page templates
+
+projects/
+├── models.py          # Project categories, details, images, and downloads
+├── views.py           # Project listing and detail pages
+├── admin.py           # Project editing workflows
+├── urls.py            # Project route definitions
+└── templates/projects/# Project page templates
+
+templates/
+├── base.html           # Shared page shell, navigation, and footer
+├── admin/              # Customized Django admin layout
+└── home/               # Public page templates
+
+static/
+├── css/                # Public and admin stylesheets
+├── js/                 # Public interactions and progressive enhancement
+├── images/             # Theme and site imagery
+└── fonts/              # Local font assets
+```
+
+### Where to make changes
+
+| Goal | Primary location |
+| --- | --- |
+| Change branding, navigation, footer, or contact details | Django admin → Site Settings |
+| Add or edit a public page | `home/models.py`, `home/views.py`, `templates/home/` |
+| Change blog content | Django admin → Blog Posts; `blog/` for behavior/templates |
+| Change project content | Django admin → Projects; `projects/` for behavior/templates |
+| Change the visual design | `static/css/` and shared templates |
+| Add client-side interactions | `static/js/` |
+| Change routes | `company_intro/urls.py` or the relevant app `urls.py` |
+| Change database structure | App `models.py`, then create and apply migrations |
+| Change deployment configuration | `company_intro/settings.py`, `launch.sh`, and deployment files |
+
 ## Requirements
 
 - Python 3.10 or newer
