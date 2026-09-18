@@ -10,6 +10,29 @@
 </head>
 <body>
 
+<div class="editor-bar" role="region" aria-label="Site editor">
+  <div class="editor-bar__inner">
+    <div class="editor-status"><span class="editor-dot" aria-hidden="true"></span><strong>Live site editor</strong><span class="editor-hint">Edit content and tune the visual system</span></div>
+    <div class="editor-actions">
+      <button class="editor-btn" type="button" data-toggle-edit><span aria-hidden="true">✎</span> Edit content</button>
+      <button class="editor-btn editor-btn--primary" type="button" data-open-customizer><span aria-hidden="true">⚙</span> Customize</button>
+    </div>
+  </div>
+</div>
+
+<aside class="customizer" aria-label="Customize site" aria-hidden="true">
+  <div class="customizer__head"><div><p class="eyebrow">Design controls</p><h2>Make it yours</h2></div><button class="customizer__close" type="button" data-close-customizer aria-label="Close customizer">×</button></div>
+  <div class="customizer__body">
+    <div class="control-group"><label for="accent-color">Accent color</label><div class="color-control"><input id="accent-color" type="color" value="#c72f2b"><code data-color-value>#c72f2b</code></div></div>
+    <div class="control-group"><label for="surface-color">Page surface</label><div class="color-control"><input id="surface-color" type="color" value="#f4f7fb"><code data-surface-value>#f4f7fb</code></div></div>
+    <div class="control-group"><label for="type-scale">Type scale</label><select id="type-scale"><option value="compact">Compact</option><option value="balanced" selected>Balanced</option><option value="expressive">Expressive</option></select></div>
+    <div class="control-group"><label for="layout-density">Layout density</label><select id="layout-density"><option value="tight">Tight</option><option value="comfortable" selected>Comfortable</option><option value="airy">Airy</option></select></div>
+    <div class="customizer-note"><strong>Tip</strong><span>Turn on Edit content, then click any highlighted text to rewrite it directly on the page.</span></div>
+  </div>
+  <div class="customizer__foot"><button class="btn" type="button" data-reset-customizer>Reset design</button><button class="btn btn-solid" type="button" data-close-customizer>Done</button></div>
+</aside>
+<div class="customizer-scrim" data-close-customizer></div>
+
 <nav class="site-nav">
   <div class="wrap">
     <a href="index.html" class="logo">Pivot Risk<span>RISK MANAGEMENT &amp; ADVISORY</span></a>
