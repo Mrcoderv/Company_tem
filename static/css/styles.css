@@ -19,6 +19,10 @@
   --line:       #d9e2f0;
   --rust:       #c72f2b;
   --accent-glow: rgba(199, 47, 43, 0.12);
+  --shadow-sm: 0 8px 24px rgba(13, 35, 73, 0.08);
+  --shadow-md: 0 18px 44px rgba(13, 35, 73, 0.12);
+  --radius-sm: 10px;
+  --radius-md: 18px;
 
   --serif: 'Fraunces', Georgia, serif;
   --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -116,8 +120,8 @@ p{ margin: 0 0 1em; color: var(--slate); max-width: 62ch; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 .logo{
   font-family: var(--serif);
@@ -174,6 +178,7 @@ p{ margin: 0 0 1em; color: var(--slate); max-width: 62ch; }
 
 /* ---------- Hero ---------- */
 .hero{
+  background: linear-gradient(135deg, var(--paper) 0%, #eaf1fb 100%);
   position: relative;
   padding: clamp(64px, 12vh, 120px) 0 clamp(56px, 8vh, 90px);
   overflow: hidden;
@@ -408,6 +413,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ---------- Reduced motion ---------- */
+/* ---------- Visual polish ---------- */
+.site-nav{ box-shadow: 0 1px 0 rgba(13,35,73,.04), 0 8px 24px rgba(13,35,73,.04); }
+.nav-links a{ font-weight: 500; }
+.hero{ min-height: min(720px, calc(100vh - 76px)); display: flex; align-items: center; }
+.hero-grid > div:last-child{ background: rgba(255,255,255,.58); border: 1px solid rgba(33,87,183,.12); border-radius: var(--radius-md); padding: clamp(18px, 3vw, 34px); box-shadow: var(--shadow-md); }
+.btn{ border-radius: 999px; box-shadow: 0 1px 0 rgba(13,35,73,.08); }
+.cell{ transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.cell:hover{ transform: translateY(-4px); box-shadow: var(--shadow-sm); position: relative; z-index: 1; }
+.stat{ transition: background .2s ease; }
+.stat:hover{ background: var(--white); }
+.site-footer{ border-top: 4px solid var(--brand-red); }
+.field input, .field textarea, .filter-bar select, .filter-bar input{ border-radius: var(--radius-sm); }
+
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
   *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -427,7 +445,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .nav-links{
     position: fixed;
     top: 64px; left: 0; right: 0;
-    background: var(--paper);
+    background: rgba(244, 247, 251, 0.98);
+    box-shadow: 0 16px 32px rgba(13,35,73,.12);
     flex-direction: column;
     padding: 20px var(--gutter) 30px;
     border-bottom: 1px solid var(--line);
