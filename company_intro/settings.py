@@ -23,10 +23,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-0&wn5ue84(42%mxwt3*z=mo-^6_8nmx^6=xq(qkvmd20+4sqq3'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Keep debug configurable so production deployments do not expose Django's
+# technical error pages or sensitive settings.
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in {'1', 'true', 'yes'}
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        'DJANGO_ALLOWED_HOSTS',
+        'company-tem.vercel.app,.vercel.app,localhost,127.0.0.1',
+    ).split(',')
+    if host.strip()
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        'DJANGO_CSRF_TRUSTED_ORIGINS',
+        'https://company-tem.vercel.app',
+    ).split(',')
+    if origin.strip()
+]
 
 
 # Application definition
