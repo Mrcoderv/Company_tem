@@ -21,10 +21,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BACKEND="$ROOT/backend"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 
-cd "$BACKEND"
+cd "$ROOT"
 
 # 1) Virtualenv + dependencies ----------------------------------------------
 if [ ! -d ".venv" ]; then
